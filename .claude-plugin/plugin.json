@@ -10,5 +10,7 @@
   },
   "homepage": "https://bamf.ai/docs/mcp/overview",
   "repository": "https://github.com/houstongolden/bamf-ai-claude-plugin",
+  "privacyPolicyUrl": "https://bamf.ai/privacy/",
+  "icon": ".claude-plugin/icon.svg",
   "license": "Proprietary"
 }
