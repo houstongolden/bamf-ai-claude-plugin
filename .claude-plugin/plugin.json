@@ -1,0 +1,14 @@
+{
+  "name": "bamf-ai",
+  "displayName": "BAMF.ai",
+  "version": "1.1.0",
+  "description": "Plan, create, review, schedule, publish, and analyze creator content in BAMF.ai from Claude.",
+  "author": {
+    "name": "BAMF.ai",
+    "email": "support@bamf.ai",
+    "url": "https://bamf.ai"
+  },
+  "homepage": "https://bamf.ai/docs/mcp/overview",
+  "repository": "https://github.com/houstongolden/bamf-ai-claude-plugin",
+  "license": "Proprietary"
+}
