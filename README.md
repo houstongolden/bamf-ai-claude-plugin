@@ -35,3 +35,6 @@ Each skill references `skills/references/operation-contract.md` for shared ident
 - Documentation: https://bamf.ai/docs/mcp/overview
 - Support: https://bamf.ai/support
 - Privacy: https://bamf.ai/privacy/
+
+The directory manifest uses a 512×512 PNG listing icon for broad renderer
+compatibility; the SVG source remains available in `assets/`.
