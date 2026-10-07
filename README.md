@@ -1,6 +1,6 @@
 # BAMF.ai for Claude — the AI CMO for founder-led growth
 
-BAMF.ai brings approval-aware founder and company growth workflows into Claude. The five focused skills route between identity and workspace selection, analytics, growth planning, outreach preparation, and managed sites. The connector can ground plans in available creator/company context, prepare content and outreach, and build or publish authorized managed-site versions. Real capability depends on account role, OAuth scopes, and workspace access.
+BAMF.ai brings approval-aware founder and company growth workflows into Claude. The six focused skills route between identity and workspace selection, creator content, analytics, growth planning, outreach preparation, and managed sites. The connector can ground plans in available creator/company context, prepare content and outreach, and build or publish authorized managed-site versions. Real capability depends on account role, OAuth scopes, and workspace access.
 
 ## Connect
 
@@ -15,6 +15,7 @@ Standalone AI image/video/audio generation and Engagement Boost are not exposed 
 ## Skills
 
 - `bamf-ai`: identity-first router and shared capability boundaries.
+- `bamf-content`: creator/founder context, interviews, research, ideas, drafts, edits, media selection, and organic scheduling/publishing.
 - `bamf-analytics`: platform-aware analytics, funnel mix, reports, and source coverage.
 - `bamf-growth-plan`: founder/company goals, evidence, offers, and bounded experiments.
 - `bamf-outreach`: scoped discovery and preparation-only outreach workflows.

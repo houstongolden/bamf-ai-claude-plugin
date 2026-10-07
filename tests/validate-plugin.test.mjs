@@ -1,17 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const source = path.resolve(root, "../bamfaiapp/supabase/functions/product-mcp/index.ts");
 const skillDir = path.join(root, "skills");
-const bannedTools = [
-  "bamf.message_client", "bamf.get_agent_capabilities", "bamf.route_agent_workflow",
-  "bamf.create_job", "bamf.generate_image", "bamf.generate_carousel",
-  "bamf.generate_video", "bamf.narrate_video_project", "bamf.boost_post", "bamf.get_profile",
-];
+const fixture = JSON.parse(await readFile(path.join(root, "tests/fixtures/claude-tool-catalog.json"), "utf8"));
+const expectedSkillNames = ["bamf-ai", "bamf-analytics", "bamf-content", "bamf-growth-plan", "bamf-outreach", "bamf-sites"];
 
 function parseSkill(text) {
   const match = text.match(/^---\n([\s\S]*?)\n---\n/);
@@ -26,17 +22,29 @@ function policyViolation(text) {
   return /(?:paste|provide|export|store) (?:your )?(?:BAMF )?(?:API )?key|(?:npm|npx|curl|bash)\s+(?:install|run|exec)|(?:offers?|supports?|provides?|can perform) arbitrary (?:email|DM) sending|(?:offers?|supports?|provides?|can) (?:to )?(?:generat(?:e|ing)|creat(?:e|ing)) (?:a )?(?:standalone )?(?:AI )?(?:image|video|audio)|(?:offers?|supports?|provides?) (?:team|bot) administration/i.test(text);
 }
 
+function safeRelativeTarget(fromFile, href, baseDir) {
+  if (!href.startsWith("./") && !href.startsWith("../")) throw new Error("link must be relative");
+  const target = path.resolve(path.dirname(fromFile), href);
+  if (!target.startsWith(`${baseDir}${path.sep}`)) throw new Error("link escapes skill bundle");
+  return target;
+}
+
 test("all skills have unique, valid frontmatter and stay within size budgets", async () => {
   const names = await readdir(skillDir);
   const skillFiles = [];
   for (const entry of names) {
+    if (entry === "references") continue;
+    assert.ok((await stat(path.join(skillDir, entry))).isDirectory(), `${entry} must be a skill directory`);
     const file = path.join(skillDir, entry, "SKILL.md");
-    try { skillFiles.push({ file, text: await readFile(file, "utf8") }); } catch {}
+    skillFiles.push({ file, text: await readFile(file, "utf8") });
   }
-  assert.equal(skillFiles.length, 5);
   const parsed = skillFiles.map(({ text }) => parseSkill(text));
+  assert.deepEqual(parsed.map((skill) => skill.name).sort(), [...expectedSkillNames].sort());
   assert.equal(new Set(parsed.map((skill) => skill.name)).size, parsed.length);
-  for (const skill of parsed) assert.match(skill.name, /^bamf-[a-z0-9-]+$/);
+  for (let i = 0; i < parsed.length; i++) {
+    assert.match(parsed[i].name, /^bamf-[a-z0-9-]+$/);
+    assert.equal(path.basename(path.dirname(skillFiles[i].file)), parsed[i].name, "skill directory must match frontmatter name");
+  }
   const rootSkill = skillFiles.find(({ file }) => file.endsWith("/bamf-ai/SKILL.md"));
   assert.ok(rootSkill);
   assert.ok(Buffer.byteLength(rootSkill.text) < 4_000);
@@ -53,32 +61,47 @@ test("all relative skill links resolve inside the bundle", async () => {
     let text;
     try { text = await readFile(file, "utf8"); } catch { continue; }
     for (const [, href] of text.matchAll(/\]\((\.\.?\/[^)]+)\)/g)) {
-      const target = path.resolve(path.dirname(file), href);
-      assert.ok(target.startsWith(`${skillDir}${path.sep}`));
-      await readFile(target, "utf8");
+      await readFile(safeRelativeTarget(file, href, skillDir), "utf8");
     }
   }
 });
 
 test("positive tool references match the current Claude projection", async () => {
-  const index = await readFile(source, "utf8");
-  const allTools = new Set([...index.matchAll(/name:\s*"(bamf\.[a-z0-9_]+)"/g)].map((m) => m[1]));
-  const exclusion = index.match(/const CLAUDE_DIRECTORY_EXCLUDED_TOOLS = new Set\(\[([\s\S]*?)\]\);/)?.[1];
-  assert.ok(exclusion, "Claude exclusion set not found");
-  const excluded = new Set([...exclusion.matchAll(/"(bamf\.[a-z0-9_]+)"/g)].map((m) => m[1]));
-  assert.deepEqual([...excluded].sort(), [...bannedTools].sort());
+  const allTools = new Set(fixture.supported);
+  const excluded = new Set(fixture.excluded);
+  assert.equal(new Set(fixture.supported).size, fixture.supported.length);
+  assert.equal(new Set(fixture.excluded).size, fixture.excluded.length);
+  assert.equal([...excluded].some((tool) => allTools.has(tool)), false);
   const names = await readdir(skillDir);
   for (const entry of names) {
-    if (entry === "references") continue;
+    const file = entry === "references"
+      ? path.join(skillDir, "references/operation-contract.md")
+      : path.join(skillDir, entry, "SKILL.md");
     let text;
-    try { text = await readFile(path.join(skillDir, entry, "SKILL.md"), "utf8"); } catch { continue; }
-    assert.ok(text.includes("# Claude-only omissions") || !bannedTools.some((tool) => text.includes(`\`${tool}\``)));
-    const positive = entry === "references" ? text : text.split("## Claude-only omissions")[0];
+    try { text = await readFile(file, "utf8"); } catch { continue; }
+    const positive = text.split("## Claude-only omissions")[0];
     for (const [, tool] of positive.matchAll(/`(bamf\.[a-z0-9_]+)`/g)) {
-      assert.ok(allTools.has(tool), `${tool} is not in product-mcp tool catalog`);
+      assert.ok(allTools.has(tool), `${tool} is not in the pinned Claude tool catalog (${fixture.sourceRevision})`);
       assert.ok(!excluded.has(tool), `${tool} is excluded from Claude projection`);
     }
   }
+
+  const currentSource = process.env.BAMF_PRODUCT_MCP_SOURCE;
+  if (currentSource) {
+    const index = await readFile(path.resolve(currentSource), "utf8");
+    const sourceTools = new Set([...index.matchAll(/name:\s*"(bamf\.[a-z0-9_]+)"/g)].map((m) => m[1]));
+    const exclusion = index.match(/const CLAUDE_DIRECTORY_EXCLUDED_TOOLS = new Set\(\[([\s\S]*?)\]\);/)?.[1];
+    assert.ok(exclusion, "Claude exclusion set not found in optional current source");
+    const sourceExcluded = new Set([...exclusion.matchAll(/"(bamf\.[a-z0-9_]+)"/g)].map((m) => m[1]));
+    assert.deepEqual([...sourceExcluded].sort(), [...excluded].sort());
+    for (const tool of allTools) assert.ok(sourceTools.has(tool), `${tool} missing from optional current MCP source`);
+  }
+});
+
+test("link checker rejects traversal and absolute link cases", () => {
+  const file = path.join(skillDir, "bamf-ai/SKILL.md");
+  assert.throws(() => safeRelativeTarget(file, "../../outside.md", skillDir), /escapes/);
+  assert.throws(() => safeRelativeTarget(file, "/etc/passwd", skillDir), /relative/);
 });
 
 test("sensitive setup and unsupported capability claims fail closed", () => {
