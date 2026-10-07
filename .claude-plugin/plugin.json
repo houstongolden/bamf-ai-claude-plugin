@@ -1,8 +1,8 @@
 {
   "name": "bamf-ai",
   "displayName": "BAMF.ai",
-  "version": "1.1.0",
-  "description": "Plan, create, review, schedule, publish, and analyze creator content in BAMF.ai from Claude.",
+  "version": "1.1.1",
+  "description": "AI CMO for founder-led growth: connected company and creator context, content, analytics, sites, and approval-aware growth workflows in BAMF.ai.",
   "author": {
     "name": "BAMF.ai",
     "email": "support@bamf.ai",
@@ -11,6 +11,6 @@
   "homepage": "https://bamf.ai/docs/mcp/overview",
   "repository": "https://github.com/houstongolden/bamf-ai-claude-plugin",
   "privacyPolicyUrl": "https://bamf.ai/privacy/",
-  "icon": ".claude-plugin/icon.svg",
+  "icon": "./assets/bamf-icon.svg",
   "license": "Proprietary"
 }
