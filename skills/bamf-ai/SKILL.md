@@ -1,18 +1,12 @@
 ---
 name: bamf-ai
-description: Use the connected BAMF.ai workspace to research, create, review, schedule, publish, and analyze creator content with approval-aware actions.
+description: Route founder-led growth work through the signed-in BAMF.ai company, creator, and managed-client workspaces; choose a focused skill for analytics, outreach preparation, sites, or a growth plan.
 ---
 
-# BAMF.ai
+# BAMF.ai growth workspace
 
-Use the BAMF connector as the source of truth for the signed-in user's creator spaces, context, drafts, analytics, and integrations.
+Use BAMF as an approval-aware AI CMO workspace for a founder's business and authorized client work—not as an unrestricted CRM, sender, or team-admin console. Start with `bamf.get_agent_identity`; email, display name, default creator, and recommended creator may be null or hints only. Then inspect `bamf.list_creator_spaces`, choose the exact named creator/client workspace, and ask if the target is missing or ambiguous. Never treat an ID, role, email match, or recommendation as authorization. For hosted sites, separately discover the managed client destination with `bamf.list_site_workspaces`.
 
-Start read-first: list available creator spaces, select the relevant workspace, then retrieve only the context needed for the request. Treat missing or unavailable data as unknown; never invent provider status, audience data, delivery, scheduling, or publication receipts.
+Route creator/founder research, interviews, ideas, drafts, edits and organic publishing to [bamf-content](../bamf-content/SKILL.md); detailed performance to [bamf-analytics](../bamf-analytics/SKILL.md); prospect/campaign preparation to [bamf-outreach](../bamf-outreach/SKILL.md); managed pages/artifacts to [bamf-sites](../bamf-sites/SKILL.md); and broader marketing experiments to [bamf-growth-plan](../bamf-growth-plan/SKILL.md). Each inherits [the connector contract](../references/operation-contract.md); load only the relevant skill. Available outcomes are bounded by connected account, role and OAuth scopes.
 
-Drafting and analysis are safe to perform after the relevant workspace is selected. Before an externally consequential action such as scheduling, publishing, sending, deleting, or changing an integration, present the exact target and proposed action and obtain the user's current approval. A prior approval does not authorize a different workspace, post, recipient, schedule, or external action.
-
-Use the narrowest scope and tool for the task. Do not request, expose, store, or ask the user to paste BAMF API keys: the remote connector completes OAuth, refreshes access, and supports revoke/reconnect through BAMF.
-
-The connector is a real operating surface, not a read-only dashboard. After the user selects a creator space, use BAMF tools for ideas, research, drafting, editing, knowledge, media-library management, analytics, profile packages, organic schedules, outreach, and organic immediate publishing when the account role permits it. Draft generation creates reviewable output; creating, editing, scheduling, deleting, sending, or publishing must each use the narrow named MCP tool only after exact approval. Engagement Boost is unavailable through the public Claude connector. Never claim a provider effect without the returned BAMF receipt.
-
-The public Claude connector does not expose standalone AI image, video, or audio generation. If a workflow needs new generated media, explain that limitation plainly and continue with any available planning, asset selection, attachment, scheduling, or publishing work the user requested. Do not route around the public connector or ask the user to paste credentials.
+Show the exact workspace, object/version, content, channel, time, and intended effect before a consequential change; obtain fresh approval for that exact action. Keep preparation, approval, queue/admission, provider effect, and receipt distinct. A draft or saved artifact is not published or delivered. Report external completion only from a matching provider receipt. This public Claude projection does not expose standalone generated image/video/audio, Engagement Boost, arbitrary sends, team/bot administration, or general newsletter/community delivery. Never request keys, use local CLI instructions, or imply tools that are not listed by the connector.

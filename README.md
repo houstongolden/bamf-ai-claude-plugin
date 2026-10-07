@@ -1,20 +1,34 @@
 # BAMF.ai for Claude — the AI CMO for founder-led growth
 
-BAMF.ai brings an approval-aware AI CMO workflow for founder-led growth into Claude. Through the hosted OAuth connector and one workflow skill, Claude can use the connected BAMF workspace's company and creator context for content planning and creation, analytics, managed sites, and outreach preparation. Available actions depend on the connected workspace, account role, and granted access.
+BAMF.ai brings approval-aware founder and company growth workflows into Claude. The six focused skills route between identity and workspace selection, creator content, analytics, growth planning, outreach preparation, and managed sites. The connector can ground plans in available creator/company context, prepare content and outreach, and build or publish authorized managed-site versions. Real capability depends on account role, OAuth scopes, and workspace access.
 
-## Install and connect
+## Connect
 
-Add **BAMF.ai** from Claude's plugin directory. Open the plugin's **Connectors** tab, choose **Connect**, then sign in to BAMF.ai and approve the creator workspaces you want Claude to access. This is the only connection step. The plugin and connector then work in Claude chat, Claude Desktop, Cowork, and Claude Code sessions using the same Claude account.
+Add **BAMF.ai** from Claude's plugin directory. In Claude's **Connectors** tab, choose **Connect**, sign in to BAMF.ai, and approve the requested permissions. After connecting, use the identity returned by BAMF, discover the available creator or managed-site workspaces with the connector, then explicitly select the intended destination. OAuth consent does not itself select a workspace; identity defaults are hints, not authorization.
 
-The public Claude connector does not provide standalone AI image, video, or audio generation, and Engagement Boost is unavailable. Media-library selection and attachment are distinct from generating new media. Outreach features support scoped discovery and campaign preparation; this plugin does not claim arbitrary email or direct-message sending, team-member administration, or general newsletter delivery. Creator and site actions depend on your workspace role and the connector's granted scopes. Scheduling and publishing use the available organic-content workflows and require the exact action to be approved; Claude must report an external effect only when BAMF returns a receipt.
+## Capability boundaries
+
+This Claude projection supports BAMF creator analytics and content workflows, evidence-labeled founder growth plans, scoped outreach discovery and campaign preparation, and authorized managed-site creation/revision/artifact/publish operations. Outreach preparation, approval, queueing, and admission do not themselves send; only a matching provider receipt proves a separate executor delivered. Saved HTML does not publish. A site opt-in form or resource handoff does not deliver a newsletter or manage a community. The connector is not a universal CRM, arbitrary Gmail/LinkedIn/X/Instagram sender, team/bot administrator, or general deck-generation service.
+
+Standalone AI image/video/audio generation and Engagement Boost are not exposed in this Claude package. No API key, local shell, hook, or alternate-credential setup is required. Consequential changes require approval for the exact workspace, object/version, content, and effect; BAMF receipts are the evidence for completed provider effects.
+
+## Skills
+
+- `bamf-ai`: identity-first router and shared capability boundaries.
+- `bamf-content`: creator/founder context, interviews, research, ideas, drafts, edits, media selection, and organic scheduling/publishing.
+- `bamf-analytics`: platform-aware analytics, funnel mix, reports, and source coverage.
+- `bamf-growth-plan`: founder/company goals, evidence, offers, and bounded experiments.
+- `bamf-outreach`: scoped discovery and preparation-only outreach workflows.
+- `bamf-sites`: managed client sites, HTML artifacts, preview, and explicit publish.
+
+Each skill references `skills/references/operation-contract.md` for shared identity, approval, receipt, provenance, and policy rules. This repository is the canonical distribution source for the Claude-specific projection only. It does not replace or claim ownership of BAMFStack's canonical skills in the BAMF application repository; any app-side copy is a historical snapshot and must not independently publish the Claude package.
 
 ## Try it
 
-- "List my BAMF creator spaces and summarize the latest LinkedIn analytics for the one I choose."
-- "Research this topic, propose three evidence-backed LinkedIn ideas in my voice, and save the one I approve as a draft."
-- "Show me the exact copy, media, platforms, and timing for this draft; after I approve that exact plan, schedule it and return the BAMF receipt."
-
-Claude should read before it writes, select the intended creator space explicitly, ask for current approval before consequential external actions, and report provider effects only when BAMF returns a receipt. OAuth tokens refresh automatically and can be revoked or reconnected from BAMF connector settings.
+- “Check my BAMF identity, show my creator spaces, then compare the 90-day funnel mix for the space I select.”
+- “Build a founder-led growth plan from my connected context; separate confirmed facts from assumptions and give me three measurable experiments.”
+- “Prepare an outreach campaign for the exact list and account I choose. Show the copy and cadence; do not send it.”
+- “Preview a lead-magnet landing page in the managed client workspace I select; tell me what saving and publishing each do.”
 
 - Documentation: https://bamf.ai/docs/mcp/overview
 - Support: https://bamf.ai/support
