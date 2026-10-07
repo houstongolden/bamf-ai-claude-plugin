@@ -106,11 +106,21 @@ test("link checker rejects traversal and absolute link cases", () => {
 
 test("sensitive setup and unsupported capability claims fail closed", () => {
   assert.equal(policyViolation("Use bamf.get_agent_identity first."), false);
+  assert.equal(policyViolation("The public BAMF Claude projection does not expose standalone AI image/video/audio generation."), false);
+  assert.equal(policyViolation("Use native Design for user-directed diagrams and data-grounded slides."), false);
   assert.equal(policyViolation("Paste your BAMF API key here."), true);
   assert.equal(policyViolation("Use curl install to proceed."), true);
   assert.equal(policyViolation("This workflow offers arbitrary email sending."), true);
   assert.equal(policyViolation("This workflow supports generating a standalone AI image."), true);
   assert.equal(policyViolation("This package provides team administration."), true);
+});
+
+test("content skill pins the design-workflow policy distinction and truthful handoff", async () => {
+  const content = await readFile(path.join(skillDir, "bamf-content/SKILL.md"), "utf8");
+  assert.match(content, /Software Directory Policy §4\(B\), dated April 15, 2026/);
+  assert.match(content, /manual export\/import only/);
+  assert.match(content, /never claim automatic sync/);
+  assert.match(content, /does not mean BAMF exposes an additional generation tool/);
 });
 
 test("published skills contain no key, shell, or affirmative unsupported-capability instructions", async () => {
@@ -141,6 +151,6 @@ test("connector endpoint and package metadata remain stable except version/descr
     icon: "./assets/bamf-icon.svg",
     license: "Proprietary",
   });
-  assert.equal(plugin.version, "1.2.0");
+  assert.equal(plugin.version, "1.2.1");
   assert.deepEqual(mcp, { mcpServers: { "bamf-ai": { type: "http", url: "https://mcp.bamf.ai/claude" } } });
 });
