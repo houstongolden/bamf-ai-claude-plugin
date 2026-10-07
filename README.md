@@ -12,6 +12,8 @@ This Claude projection supports BAMF creator analytics and content workflows, ev
 
 Standalone AI image/video/audio generation and Engagement Boost are not exposed in this Claude package. No API key, local shell, hook, or alternate-credential setup is required. Consequential changes require approval for the exact workspace, object/version, content, and effect; BAMF receipts are the evidence for completed provider effects.
 
+When the Claude host actually provides native Design or an artifact surface, users may create design-workflow visual aids—such as diagrams, charts, carousel layouts, slides, or infographics—grounded in their own brand/assets and sourced data. This follows the design-focused visual-aid distinction in [Anthropic's Software Directory Policy §4(B)](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy); it does not add standalone generation or expose excluded BAMF generation tools. BAMF handoff is manual and versioned: export/import compatible artifacts explicitly, then save only through a supported, user-approved operation. There is no automatic Claude Design sync, and BAMF's HTML/report/asset tools do not imply arbitrary native-file import.
+
 ## Skills
 
 - `bamf-ai`: identity-first router and shared capability boundaries.
