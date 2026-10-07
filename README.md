@@ -4,7 +4,7 @@ BAMF.ai brings approval-aware founder and company growth workflows into Claude. 
 
 ## Connect
 
-Add **BAMF.ai** from Claude's plugin directory. In Claude's **Connectors** tab, choose **Connect**, sign in to BAMF.ai, and approve the workspaces requested by the connector. Use the identity returned by BAMF and explicitly select the intended creator/client destination; identity defaults are hints, not authorization.
+Add **BAMF.ai** from Claude's plugin directory. In Claude's **Connectors** tab, choose **Connect**, sign in to BAMF.ai, and approve the requested permissions. After connecting, use the identity returned by BAMF, discover the available creator or managed-site workspaces with the connector, then explicitly select the intended destination. OAuth consent does not itself select a workspace; identity defaults are hints, not authorization.
 
 ## Capability boundaries
 
