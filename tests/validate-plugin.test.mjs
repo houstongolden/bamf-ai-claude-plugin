@@ -151,7 +151,7 @@ test("connector endpoint and package metadata remain stable except version/descr
     icon: "./assets/bamf-icon.png",
     license: "Proprietary",
   });
-  assert.equal(plugin.version, "1.2.2");
+  assert.equal(plugin.version, "1.2.4");
   const icon = await readFile(path.join(root, plugin.icon), null);
   assert.equal(icon.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
   assert.deepEqual(mcp, { mcpServers: { "bamf-ai": { type: "http", url: "https://mcp.bamf.ai/claude" } } });
