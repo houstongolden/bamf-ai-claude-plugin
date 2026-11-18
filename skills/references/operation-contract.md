@@ -19,6 +19,10 @@ Before a consequential operation, show the selected workspace, exact object and 
 - Sites: `bamf.get_site` reads; `bamf.manage_site` creates/revises sessions or previews but does not publish; `bamf.save_site_artifact` persists HTML; `bamf.publish_site` covers the exact approval/version-bound publish or access operation and may be externally consequential. Preview first and obtain fresh approval before invoking a publish/access change. A native Design handoff is manual: provide the artifact/version or copyable HTML and say the user can import it; do not claim automatic sync.
 - Native artifacts: use a native chart/report/table/deck surface only when the host actually provides one. State sources, date range, pagination, and missing coverage. Save a BAMF artifact only when requested and supported; link to a session only if the user supplies its real URL. Decks, community management, CRM stage mutation, and newsletter delivery are not implied by artifact or site tools.
 
+## Interactive results
+
+For an audit, strategy, or walkthrough, check the connected tool list for `bamf.list_ui_components` and `bamf.validate_ui_spec`. Select components for the destination surface. Bind their values to the actual tool result, validate the JSON, and use the normalized result only when valid. In a text-only host, show the essential measurements and an existing authorized workspace link. A validated specification alone does not open a browser or save an artifact.
+
 ## Claude-only omissions
 
 Never reference or route to `bamf.message_client`, `bamf.get_agent_capabilities`, `bamf.route_agent_workflow`, `bamf.create_job`, `bamf.generate_image`, `bamf.generate_carousel`, `bamf.generate_video`, `bamf.narrate_video_project`, `bamf.boost_post`, or `bamf.get_profile`. In particular, `bamf.get_profile` is not an identity fallback; use `bamf.get_agent_identity`. No arbitrary email/DM sending, team member or bot administration, or general newsletter/community delivery is exposed. Do not request API keys, expose secrets, give local shell/CLI setup steps, or offer alternate credentials as an OAuth workaround.
