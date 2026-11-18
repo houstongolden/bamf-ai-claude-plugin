@@ -58,5 +58,13 @@
     "bamf.manage_site",
     "bamf.save_site_artifact",
     "bamf.publish_site"
-  ]
+  ],
+  "liveProjectionAdditions": {
+    "endpoint": "https://mcp.bamf.ai/claude",
+    "observedOn": "2026-11-18",
+    "supported": [
+      "bamf.list_ui_components",
+      "bamf.validate_ui_spec"
+    ]
+  }
 }

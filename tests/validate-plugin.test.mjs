@@ -67,9 +67,10 @@ test("all relative skill links resolve inside the bundle", async () => {
 });
 
 test("positive tool references match the current Claude projection", async () => {
-  const allTools = new Set(fixture.supported);
+  const documentedTools = [...fixture.supported, ...fixture.liveProjectionAdditions.supported];
+  const allTools = new Set(documentedTools);
   const excluded = new Set(fixture.excluded);
-  assert.equal(new Set(fixture.supported).size, fixture.supported.length);
+  assert.equal(allTools.size, documentedTools.length);
   assert.equal(new Set(fixture.excluded).size, fixture.excluded.length);
   assert.equal([...excluded].some((tool) => allTools.has(tool)), false);
   const names = await readdir(skillDir);
@@ -94,7 +95,7 @@ test("positive tool references match the current Claude projection", async () =>
     assert.ok(exclusion, "Claude exclusion set not found in optional current source");
     const sourceExcluded = new Set([...exclusion.matchAll(/"(bamf\.[a-z0-9_]+)"/g)].map((m) => m[1]));
     assert.deepEqual([...sourceExcluded].sort(), [...excluded].sort());
-    for (const tool of allTools) assert.ok(sourceTools.has(tool), `${tool} missing from optional current MCP source`);
+    for (const tool of fixture.supported) assert.ok(sourceTools.has(tool), `${tool} missing from optional current MCP source`);
   }
 });
 
@@ -151,7 +152,7 @@ test("connector endpoint and package metadata remain stable except version/descr
     icon: "./assets/bamf-icon.png",
     license: "Proprietary",
   });
-  assert.equal(plugin.version, "1.2.2");
+  assert.equal(plugin.version, "1.2.3");
   const icon = await readFile(path.join(root, plugin.icon), null);
   assert.equal(icon.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
   assert.deepEqual(mcp, { mcpServers: { "bamf-ai": { type: "http", url: "https://mcp.bamf.ai/claude" } } });
