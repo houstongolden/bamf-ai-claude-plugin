@@ -1,6 +1,6 @@
 ---
 name: bamf-content
-description: Run source-grounded BAMF founder/creator content workflows from interviews, research, and ideas through drafts, edits, media selection, scheduling, and organic publishing.
+description: Run source-grounded BAMF creator content workflows, including creator reference research, cross-channel strategy, interviews, ideas, drafts, edits, media selection, and publishing.
 ---
 
 # BAMF creator and founder content
@@ -10,6 +10,14 @@ Follow the shared [operation contract](../references/operation-contract.md). Res
 ## Source and plan
 
 Use `bamf.search_knowledge` and `bamf.list_interviews` to find existing source material. `bamf.create_interview_link` creates a secure opt-in link and share copy only; it does not start an interview in chat or send the link. If the user provides a transcript, `bamf.create_interview_transcript` can save it; ask before durable storage and distinguish transcript from verified fact. Use `bamf.run_research` for current facts, benchmarks, or trends and preserve returned sources and uncertainty. `bamf.generate_ideas` returns candidate ideas; review evidence/source labels and voice fit before `bamf.create_idea` saves one.
+
+## Creator reference research and strategy
+
+For creator research, video analysis, or cross-channel strategy, identify each creator and source by publisher links, handles, titles and dates. Never identify people from faces or infer social accounts from names. Use `bamf.search_knowledge` for available creator-space sources and `bamf.run_research` for public evidence; retrieve jobs via `bamf.get_job`. Distinguish user-supplied sources from provider results. Disclose inaccessible transcripts, images, accounts or analytics; never claim to have watched or measured unavailable material.
+
+For each creator, cite source URLs, platform, observation date and available metrics with context. Separate observed hooks, formats, visuals and calls to action from proposed adaptations. Never claim top-percentile ranking without a defined pool and denominator, or infer performance or demographics from appearance. Propose an original recording prompt, opening, outline, thumbnail, distribution plan and measurable test in the requesting creator's authentic voice. Cite timestamps only if supplied by the source; do not copy another creator's identity or content.
+
+Use a structured host artifact only when available; save with `bamf.save_agent_artifact` only when requested and supported. Preserve provenance, uncertainty and coverage gaps. Research does not publish, contact anyone, or approve later actions.
 
 ## Draft and edit
 

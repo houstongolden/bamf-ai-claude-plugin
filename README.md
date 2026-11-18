@@ -17,7 +17,7 @@ When the Claude host actually provides native Design or an artifact surface, use
 ## Skills
 
 - `bamf-ai`: identity-first router and shared capability boundaries.
-- `bamf-content`: creator/founder context, interviews, research, ideas, drafts, edits, media selection, and organic scheduling/publishing.
+- `bamf-content`: creator/founder context, creator reference research and cross-channel strategy, interviews, ideas, drafts, edits, media selection, and organic scheduling/publishing.
 - `bamf-analytics`: platform-aware analytics, funnel mix, reports, and source coverage.
 - `bamf-growth-plan`: founder/company goals, evidence, offers, and bounded experiments.
 - `bamf-outreach`: scoped discovery and preparation-only outreach workflows.
@@ -26,6 +26,8 @@ When the Claude host actually provides native Design or an artifact surface, use
 Each skill references `skills/references/operation-contract.md` for shared identity, approval, receipt, provenance, and policy rules. This repository is the canonical distribution source for the Claude-specific projection only. It does not replace or claim ownership of BAMFStack's canonical skills in the BAMF application repository; any app-side copy is a historical snapshot and must not independently publish the Claude package.
 
 ## Try it
+
+- “Research these creator channels using available source evidence, then propose an original cross-channel recording plan for my selected creator space. Show gaps and do not publish.”
 
 - “Check my BAMF identity, show my creator spaces, then compare the 90-day funnel mix for the space I select.”
 - “Build a founder-led growth plan from my connected context; separate confirmed facts from assumptions and give me three measurable experiments.”
